@@ -8,15 +8,24 @@
     margin-left: auto;
     height: 40px;
 }
+p {
+    margin: 0 0 0 0;
+}
 .mid {
-    padding: 0 20px 0 20px;
+    display: flex;
+}
+.midLeft {
     background: lightgreen;
+    width: 50%;
+}
+.midRight {
+    background: lightslategray;
+    width: 50%;
 }
 .bot {
     display: flex;
+    flex-direction: column;
+    text-align: right;
     padding: 0 20px 0 20px;
     background: lightcoral;
-}
-.botStatus {
-    margin-left: auto;
 }
