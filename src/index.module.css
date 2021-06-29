@@ -7,13 +7,16 @@
 .topButton {
     margin-left: auto;
     height: 40px;
-
 }
 .mid {
     padding: 0 20px 0 20px;
     background: lightgreen;
 }
 .bot {
+    display: flex;
     padding: 0 20px 0 20px;
     background: lightcoral;
+}
+.botStatus {
+    margin-left: auto;
 }

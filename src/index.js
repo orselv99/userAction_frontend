@@ -12,6 +12,7 @@ function Top(props) {
     </div>
   );
 }
+
 function Mid(props) {
   return (
     <div className={styles.mid}>
@@ -23,10 +24,18 @@ function Mid(props) {
   );
 }
 
+// 상태 표시줄
 function Bot(props) {
+  let result = "";
+  if (props.value.result.length > 0) {
+    result += `${props.value.result} on `;
+  }
+
+  result += `${props.value.timestamp}`;
+
   return (
     <div className={styles.bot}>
-      <h2>Status : {props.value}</h2>
+      <h2 className={styles.botStatus}>{result}</h2>
     </div>
   );
 }
@@ -35,13 +44,17 @@ class Rule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: "null",
+      result: "",
+      timestamp: `${moment().format('MMMM Do YYYY, HH:mm:ss a')}`,
     }
   }
   storeRule(index) {
     if (window.confirm(`test ${index}`) === true) {
       // TODO : 실제 저장
-      this.setState({ result: `Success ${moment().format('MMMM Do YYYY, HH:mm:ss a')}` });
+      this.setState({
+        result: "Success",
+        timestamp: `${moment().format('MMMM Do YYYY, HH:mm:ss a')}`,
+      });
     }
   }
 
@@ -50,7 +63,7 @@ class Rule extends React.Component {
       <div>
         <Top value="Save" onClick={() => this.storeRule(1)} />
         <Mid />
-        <Bot value={this.state.result} />
+        <Bot value={this.state} />
       </div>
     );
   }
