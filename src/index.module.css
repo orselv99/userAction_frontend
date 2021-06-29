@@ -1,0 +1,19 @@
+.top {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background: lightblue;
+}
+.topButton {
+    margin-left: auto;
+    height: 40px;
+
+}
+.mid {
+    padding: 0 20px 0 20px;
+    background: lightgreen;
+}
+.bot {
+    padding: 0 20px 0 20px;
+    background: lightcoral;
+}
