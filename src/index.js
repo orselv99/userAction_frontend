@@ -4,11 +4,6 @@ import moment from 'moment';
 import styles from './index.module.css';  // css naming
 import axios from 'axios';
 
-//
-function generateTimestamp() {
-  return `${moment().format('MMMM Do YYYY, HH:mm:ss a')}`;
-}
-
 // 제목 + 저장버튼
 function Top(props) {
   return (
@@ -21,23 +16,23 @@ function Top(props) {
 
 // 컨텐츠
 function Mid(props) {
-  let data = props.value.rule;
-  let displayed = `${data}`;
-  console.log(`displayed: ${JSON.stringify(data)}`);
-  
+  let jsonData = props.value.data;
+  //let displayed = `${JSON.stringify(jsonData)}`;
+  //console.log(`displayed: ${displayed}`);
+  console.log(`displayed: ${jsonData.timerInterval}`);
 
   return (
     <div className={styles.mid}>
       <div className={styles.midLeft}>
         <form>
-        <p>ListView</p>
-        <p>ListView</p>
-        <p>ListView</p>
-        <p>ListView</p>
+          <p>ListView</p>
+          <p>ListView</p>
+          <p>ListView</p>
+          <p>ListView</p>
         </form>
       </div>
       <div className={styles.midRight}>
-        <p>{displayed}</p>
+        <p>{JSON.stringify(jsonData)}</p>
       </div>
     </div>
   );
@@ -59,7 +54,7 @@ function Bot(props) {
     result = `latest job (${job}) is ${jobResult}.`;
     timestamp = `${props.value.timestamp}`;
   }
-  
+
   return (
     <div className={styles.bot}>
       <p>{result}</p>
@@ -71,49 +66,59 @@ function Bot(props) {
 class Rule extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log('call constructor() for Rule');
     // 정책 확인
     this.state = {
-      rule: this.getRule(),
-      job:"a",
-      jobResult: "b",
-      timestamp: "c",
+      job: "",
+      jobResult: false,
+      timestamp: "",
+      data: null,
     }
   }
 
-  // 정책 호출
-  getRule() {
-    let result = null;
-    Promise.resolve(axios.get('http://127.0.0.1:30001/getRule')
-    .then(res1 => {
-      console.log(`res1: ${res1}`);
-    })).then((res2) => {
-      console.log(`res2: ${res2}`);
-      result = res2;
-    });    
-
-    return result;
+  generateTimestamp() {
+    return `${moment().format('MMMM Do YYYY, HH:mm:ss a')}`;
   }
 
   // 저장 이벤트
   storeRule(index) {
     if (window.confirm(`test ${index}`) === true) {
+      //
       // TODO : 실제 저장
-      
+      //
+      const result = true;
       this.setState({
-        job:"storeRule",
-        jobResult: "Success",
-        //timestamp: `${moment().format('MMMM Do YYYY, HH:mm:ss a')}`,
+        job: "storeRule",
+        jobResult: result,
+        timestamp: this.generateTimestamp(),
+        data: null,
       });
     }
   }
 
+  // 서버에 정책요청
+  async componentDidMount(prevProps) {
+    console.log('call componentDidMount() for Rule');
+    const result = await axios.get('http://127.0.0.1:30001/getRule');
+    console.log(`${JSON.stringify(result.data)}`);
+    this.setState({
+      job: "getRule",
+      jobResult: (result.data) ? true : false,
+      timestamp: this.generateTimestamp(),
+      data: result.data,
+    });
+  }
+
   render() {
+    console.log('call render() for Rule');
     return (
       <div>
         <Top value="Save" onClick={() => this.storeRule(1)} />
-        <Mid value={this.state} />
-        <Bot value={this.state} />
+        {this.state.data && <>
+          <Mid value={this.state} />
+          <Bot value={this.state} />
+        </>
+        }
       </div>
     );
   }
