@@ -13,14 +13,15 @@ p {
 }
 .mid {
     display: flex;
+    height: 400px;
 }
 .midLeft {
     background: lightgreen;
-    width: 50%;
+    width: 66%;
 }
 .midRight {
     background: lightslategray;
-    width: 50%;
+    width: 34%;
 }
 .bot {
     display: flex;
