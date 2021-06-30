@@ -1,18 +1,13 @@
-import Entry from './views/entry'
-import DashBoard from './views/dashBoard'
+import Login from './views/login'
 
 const App = () => {
     let result = true;
     return (
-        <div>
-            {result === true
-                // <>
-                //     <Entry />
-                // </>
-                ? <Entry />
-                : <DashBoard />
-            }
-        </div>);
+        // <div>
+        //     { result === true ? <Entry /> : <DashBoard /> }
+        // </div>
+        <Login />
+    );
 };
 
 export default App;
