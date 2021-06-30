@@ -71,6 +71,9 @@ const Entry = () => {
                 fullWidth
                 variant='contained'
                 color='primary'
+                onClick={() => {
+                    window.alert('TEST');
+                }}
                 >
                 로그인
                 </Button>
