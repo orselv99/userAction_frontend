@@ -13,7 +13,7 @@ import Link from '@material-ui/core/Link';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const Styles = makeStyles(theme => ({
-    container: {
+    root: {
         position: 'absolute',
         top: '50%',
         left: '50%',
@@ -83,7 +83,7 @@ const Entry = () => {
     //  입력값이 input control 의 type 에 맞는지 데이터의 유효성을 검사하지 않음
     return (
         <div>
-            <Container className={classes.container} >
+            <Container className={classes.root} >
                 <div className={classes.header}>
                     <Typography variant="h4">Sign in</Typography>
                 </div>
