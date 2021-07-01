@@ -70,7 +70,7 @@ const Entry = () => {
     }
     const onClickLogin = (e) => {
         // validation
-        if ((id != 'orseL') && (password != 'zzzzzzzz')) {
+        if ((id !== 'orseL') && (password !== 'zzzzzzzz')) {
             setFocus(false);
             setStatus('Incorrect user info.');
             return;
