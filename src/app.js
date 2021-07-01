@@ -1,12 +1,25 @@
+import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from './views/login'
+import DashBoard from './views/dashBoard'
+
+const Styles = makeStyles(theme => ({
+    theme: {
+        color: '#757575'
+    },
+}));
 
 const App = () => {
-    let result = true;
+    const classes = Styles();
     return (
-        // <div>
-        //     { result === true ? <Entry /> : <DashBoard /> }
-        // </div>
-        <Login />
+        <BrowserRouter>
+            <div className={classes.theme}>
+                <Switch>
+                    <Route exact path='/' component={Login} />
+                    <Route path='/dashboard' component={DashBoard} />
+                </Switch>
+            </div>
+        </BrowserRouter>
     );
 };
 
