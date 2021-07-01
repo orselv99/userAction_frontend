@@ -31,7 +31,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-const mainListItems = (
+const menus = (
     <div>
         <ListItem button>
             <ListItemIcon>
@@ -64,59 +64,33 @@ const Styles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    toolBar: {
-        paddingRight: 24,
+    toolbar: {
+        paddingRight: 24, // keep right padding when drawer closed
     },
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuShow: {
+    menuButton: {
         marginRight: 36,
     },
-    menuHidden: {
+    menuButtonHidden: {
         display: 'none',
     },
     title: {
         flexGrow: 1,
     },
-    drawerPaperOpen: {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
     },
-    drawerPaperClose: {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-        },
+    container: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+    },
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
     },
     fixedHeight: {
         height: 240,
@@ -125,58 +99,52 @@ const Styles = makeStyles(theme => ({
 const DashBoard = () => {
     // styles
     const classes = Styles();
-    // state hooks
-    const [open, setDrawerOpen] = useState(true);
-    // events
-    const onClickDrawerOpen = (e) => {
-        setDrawerOpen(true);
-    }
-    const onClickDrawerClose = (e) => {
-        setDrawerOpen(false);
-    }
-
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
     return (
         <div className={classes.root}>
-            <AppBar position='absolute' className={clsx(classes.appBar, open === true && classes.appBarShift)}>
-                <Toolbar className={classes.toolBar}>
-                    <IconButton
-                        // 메뉴 보이기/숨김 버튼
-                        edge='start'
-                        color='inherit'
-                        aria-label='open drawer'
-                        className={clsx(classes.menuShow, open === true && classes.menuHidden)}
-                        onClick={onClickDrawerOpen}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography component='h1' variant='h6' color='inherit' noWrap className={classes.title}>
+            {/* 상단 */}
+            <AppBar position="absolute">
+                <Toolbar className={classes.toolbar}>
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         관리자 페이지
                     </Typography>
-                    <IconButton color='inherit'>
-                        <Badge badgeContent={4} color='secondary'>
+                    {/* 알림 */}
+                    <IconButton color="inherit">
+                        <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
-
                 </Toolbar>
             </AppBar>
-
-            <Drawer
-                variant='permanent'
-                classes={{
-                    paper: clsx(classes.drawerPaperOpen, open === false && classes.drawerPaperClose),
-                }}
-                open={open}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={onClickDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <List>{mainListItems}</List>
-            </Drawer>
+            <main>
+                {/* 좌측 메뉴 */}
+                <div className={classes.appBarSpacer} />
+                <List>{menus}</List>
+            </main>
+            <main className={classes.content}>
+                {/* 우측 화면 */}
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                        {/* Chart */}
+                        <Grid item xs={12} md={8} lg={9}>
+                            <Paper className={classes.fixedHeight}>
+                            </Paper>
+                        </Grid>
+                        {/* Recent Deposits */}
+                        <Grid item xs={12} md={4} lg={3}>
+                            <Paper className={classes.fixedHeight}>
+                            </Paper>
+                        </Grid>
+                        {/* Recent Orders */}
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                    <Box pt={4}>
+                    </Box>
+                </Container>
+            </main>
         </div>
     );
 }
