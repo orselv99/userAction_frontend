@@ -1,29 +1,13 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-
-async function getRule() {
-    console.log('getRule');
-    return await axios.get('http://127.0.0.1:30001/getRule');
-}
+import { useFetch } from "../../hookHandler";
 
 const Rule = () => {
-    const [data, setData] = useState(null);
-    const requestRule = getRule();
-
-    useEffect(() => {
-        console.log(requestRule.data);
-        //setData(requestRule.data);
-    });
+    const [data, loading] = useFetch('http://127.0.0.1:30001/getRule');
 
     return (
         <div>
-            <p>
-                Rule
-                {
-                    data === null &&
-                    <> data </>
-                }
-            </p >
+            <p>Rule</p >
+            <p>{loading}</p>
+            <p>{data}</p>
         </div>
     );
 }
